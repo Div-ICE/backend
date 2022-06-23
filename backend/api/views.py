@@ -54,21 +54,23 @@ class FileUploadView(APIView):
         else:
             return Response(status=415)
 
+
 class ClientViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ClientListSerializer
     queryset = Client.objects.all()
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
-    search_fields = ('^name',)
+    search_fields = ('name',)
 
     class Meta:
         model = Client
         fields = ('name', 'client_name_id',)
 
+
 class OrganizationViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = OrganizationSerializer
     queryset = Organization.objects.all()
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
-    search_fields = ('^name',)
+    search_fields = ('name',)
 
     class Meta:
         model = Organization

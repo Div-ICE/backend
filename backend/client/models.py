@@ -2,7 +2,12 @@ from django.db import models
 
 
 class Client(models.Model):
-    name = models.CharField('Клиент', max_length=256, db_index=True, unique=True)
+    name = models.CharField(
+        'Клиент',
+        max_length=256,
+        db_index=True,
+        unique=True
+    )
 
     class Meta:
         verbose_name = 'клиент'
@@ -13,7 +18,12 @@ class Client(models.Model):
 
 
 class Organization(models.Model):
-    name = models.CharField('Организация', max_length=256, db_index=True, unique=True)
+    name = models.CharField(
+        'Организация',
+        max_length=256,
+        db_index=True,
+        unique=True
+    )
     client_name = models.ForeignKey(
         Client,
         on_delete=models.CASCADE,

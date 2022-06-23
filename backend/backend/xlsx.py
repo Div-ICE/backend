@@ -2,6 +2,8 @@ from openpyxl import load_workbook
 
 
 def read_xlsx(file, sheet):
+    """Функция принимает файл *.xlsx и название листа.
+    Возвращает объект лист и его размеры"""
     file = load_workbook(file)
     sheet = file[sheet]
     rows = sheet.max_row
@@ -11,6 +13,8 @@ def read_xlsx(file, sheet):
 
 
 def create_list(sheet, rows, cols):
+    """Функция принимает объект лист и его размеры.
+    Возвращает список словарей"""
 
     list1 = []
     for i in range(2, rows + 1):

@@ -1,18 +1,12 @@
-from dataclasses import field, fields
-from pyexpat import model
-from unicodedata import name
 from backend.xlsx import create_list, read_xlsx
-from django import views
-from django.shortcuts import get_object_or_404, render
+from client.models import Bill, Client, Organization
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import viewsets
-from drf_multiple_model.views import ObjectMultipleModelAPIView
 
-
-from .serializers import (BillSerializer, ClientSerializer,
-                         OrganizationSerializer, ClientListSerializer)
-from client.models import Client, Organization, Bill
+from .serializers import (BillSerializer, ClientListSerializer,
+                          ClientSerializer, OrganizationSerializer)
 
 
 class FileUploadView(APIView):
@@ -63,6 +57,9 @@ class FileUploadView(APIView):
 class ClientViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ClientListSerializer
     queryset = Client.objects.all()
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    search_fields = ('^name',)
+
     class Meta:
         model = Client
         fields = ('name', 'client_name_id',)
@@ -70,6 +67,8 @@ class ClientViewSet(viewsets.ReadOnlyModelViewSet):
 class OrganizationViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = OrganizationSerializer
     queryset = Organization.objects.all()
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    search_fields = ('^name',)
 
     class Meta:
         model = Organization
@@ -79,6 +78,7 @@ class OrganizationViewSet(viewsets.ReadOnlyModelViewSet):
 class BillViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = BillSerializer
     queryset = Bill.objects.all()
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
 
     class Meta:
         model = Bill

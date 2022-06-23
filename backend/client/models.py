@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Client(models.Model):
-    name = models.CharField('Клиент', max_length=256, db_index=True)
+    name = models.CharField('Клиент', max_length=256, db_index=True, unique=True)
 
     class Meta:
         verbose_name = 'клиент'
@@ -13,11 +13,11 @@ class Client(models.Model):
 
 
 class Organization(models.Model):
-    name = models.CharField('Организация', max_length=256, db_index=True)
+    name = models.CharField('Организация', max_length=256, db_index=True, unique=True)
     client_name = models.ForeignKey(
         Client,
         on_delete=models.CASCADE,
-        related_name='Клиент',
+        related_name='org_name',
     )
 
     class Meta:
@@ -33,11 +33,11 @@ class Bill(models.Model):
     client_org = models.ForeignKey(
         Organization,
         on_delete=models.CASCADE,
-        related_name='Счет',
+        related_name='bill',
     )
     number = models.IntegerField('№')
     sum = models.IntegerField('Сумма')
-    date = models.DateField('Дата')
+    date = models.DateTimeField('Дата')
 
     class Meta:
         verbose_name = 'счет'
